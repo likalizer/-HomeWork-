@@ -8,47 +8,30 @@
 import Foundation
 
 class Printer {
-    
-    var yellowViewController: YellowViewController?
-    var blueViewController: BlueViewController?
-    var redViewController: RedViewController?
-    
+    weak var delegate: Printable?
     private var timer: Timer?
     private var seconds: Int = 0
-    
+
     func startPrinting() {
-        
-        stop()
-        
-        timer = Timer.scheduledTimer(
-            timeInterval: 1,
-            target: self,
-            selector: #selector(timerAction),
-            userInfo: nil,
-            repeats: true
-        )
+        stop() // Остановить предыдущий таймер, если он активен
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
+            self?.timerAction()
+        }
     }
-    
+
     func stop() {
         timer?.invalidate()
+        timer = nil
+        seconds = 0
     }
-    
+
     @objc private func timerAction() {
-        
+        guard let textToPrint = delegate?.textToPrint() else {
+            stop()
+            return
+        }
         let secondsText = "\(seconds) секунд"
-        
-        if let textToPrint = yellowViewController?.textToPrint() {
-            print("\(textToPrint) \(secondsText)")
-        }
-        
-        if let textToPrint = blueViewController?.textToPrint() {
-            print("\(textToPrint) \(secondsText)")
-        }
-        
-        if let textToPrint = redViewController?.textToPrint() {
-            print("\(textToPrint) \(secondsText)")
-        }
-        
+        print("\(textToPrint) \(secondsText)")
         seconds += 1
     }
 }
