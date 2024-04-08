@@ -8,7 +8,7 @@
 
 import UIKit
 
-class BlueViewController: UIViewController, Printable {
+class BlueViewController: UIViewController, Printable, PrintableDelegate {
     var printer: Printer!
 
     override func viewDidLoad() {

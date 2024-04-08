@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RedViewController: UIViewController, Printable {
+class RedViewController: UIViewController, Printable, PrintableDelegate {
     var printer: Printer!
 
     override func viewDidLoad() {

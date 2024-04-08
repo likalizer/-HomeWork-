@@ -7,7 +7,7 @@
 
 import UIKit
 
-class YellowViewController: UIViewController, Printable {
+class YellowViewController: UIViewController, Printable, PrintableDelegate {
     
     var printer: Printer!
 
